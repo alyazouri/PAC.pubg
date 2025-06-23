@@ -16,7 +16,7 @@ function FindProxyForURL(url, host) {
 
   for (var i = 0; i < pubg_domains.length; i++) {
     if (shExpMatch(host, pubg_domains[i])) {
-      return "SOCKS5 123.45.67.89:1080";
+      return "SOCKS5 192.168.100.1:1080";
     }
   }
 
