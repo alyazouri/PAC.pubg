@@ -1,32 +1,27 @@
 function FindProxyForURL(url, host) {
-  // السماح بنطاقات PUBG Mobile
-  if (
-    dnsDomainIs(host, ".pubgmobile.com") ||
-    shExpMatch(host, "*.amazonaws.com") ||
-    shExpMatch(host, "*.igame.qq.com") ||
-    shExpMatch(host, "*.pubgmobile.helpshift.com") ||
-    shExpMatch(host, "*.tencentgames.helpshift.com") ||
-    shExpMatch(host, "*.proximabeta.com") ||
-    shExpMatch(host, "*.qos.game.qq.com") ||
-    shExpMatch(host, "*.igamecj.com") ||
-    shExpMatch(host, "*.gpubgm.com")
-  ) {
-    return "DIRECT";
-  }
-
-  // السماح بالنطاقات الأردنية المحلية
+  // 1. السماح الكامل للمواقع الأردنية
   if (
     dnsDomainIs(host, ".jo") ||
-    shExpMatch(host, "*.jo") ||
+    shExpMatch(host, "*.jo")
+  ) return "DIRECT";
+
+  // 2. السماح بخدمات أردنية أو محلية مهمة
+  if (
     shExpMatch(host, "*.orange.jo") ||
     shExpMatch(host, "*.umniah.com.jo") ||
-    shExpMatch(host, "*.zain.jo") ||
-    shExpMatch(host, "*.moi.gov.jo") ||
-    shExpMatch(host, "*.amman.jo")
-  ) {
-    return "DIRECT";
-  }
+    shExpMatch(host, "*.zain.jo")
+  ) return "DIRECT";
 
-  // كل شيء آخر محظور
+  // 3. السماح فقط لبعض الخدمات الخارجية المحددة (مثل PUBG)
+  if (
+    shExpMatch(host, "*.pubgmobile.com") ||
+    shExpMatch(host, "*.igamecj.com") ||
+    shExpMatch(host, "*.proximabeta.com") ||
+    shExpMatch(host, "*.qos.game.qq.com") ||
+    shExpMatch(host, "*.gpubgm.com") ||
+    shExpMatch(host, "*.amazonaws.com")
+  ) return "DIRECT";
+
+  // 4. أي موقع ثاني خارجي يتم حجبه
   return "PROXY 0.0.0.0:0";
 }
