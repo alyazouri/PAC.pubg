@@ -1,18 +1,10 @@
 function FindProxyForURL(url, host) {
-  // 1. السماح الكامل للمواقع الأردنية
-  if (
-    dnsDomainIs(host, ".jo") ||
-    shExpMatch(host, "*.jo")
-  ) return "DIRECT";
+  // السماح للمواقع الأردنية مباشرة
+  if (dnsDomainIs(host, ".jo") || shExpMatch(host, "*.jo")) {
+    return "DIRECT";
+  }
 
-  // 2. السماح بخدمات أردنية أو محلية مهمة
-  if (
-    shExpMatch(host, "*.orange.jo") ||
-    shExpMatch(host, "*.umniah.com.jo") ||
-    shExpMatch(host, "*.zain.jo")
-  ) return "DIRECT";
-
-  // 3. السماح فقط لبعض الخدمات الخارجية المحددة (مثل PUBG)
+  // السماح بخدمات PUBG المهمة مباشرة
   if (
     shExpMatch(host, "*.pubgmobile.com") ||
     shExpMatch(host, "*.igamecj.com") ||
@@ -20,8 +12,10 @@ function FindProxyForURL(url, host) {
     shExpMatch(host, "*.qos.game.qq.com") ||
     shExpMatch(host, "*.gpubgm.com") ||
     shExpMatch(host, "*.amazonaws.com")
-  ) return "DIRECT";
+  ) {
+    return "DIRECT";
+  }
 
-  // 4. أي موقع ثاني خارجي يتم حجبه
-  return "PROXY 0.0.0.0:0";
+  // باقي الإنترنت يفتح طبيعي (بدون حجب أو تأخير)
+  return "DIRECT";
 }
